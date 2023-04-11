@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('ticket_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->string('description')->nullable();
             $table->integer('sla_mins');
         });
     }

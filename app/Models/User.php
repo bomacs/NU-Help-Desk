@@ -49,6 +49,11 @@ class User extends Authenticatable
 
     public function departments()
     {
-        return $this->belongsToMany(Department::class);
+        return $this->belongsToMany(Department::class, 'department_id');
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'created_by');
     }
 }

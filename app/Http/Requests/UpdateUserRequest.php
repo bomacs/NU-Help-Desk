@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'firstname' => 'string|max:255',
             'lastname' => 'string|max:255',
             'email' => 'email|unique:users|max:255',
-            'password' => 'string|min:8|regex:/[a-z, A-Z, 0-9, @$!%*#?&]/',
+            'password' => 'string|Password::min(8)->symbols->uncompromised()',
             'is_Admin' => 'boolean'
         ];
     }

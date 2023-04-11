@@ -36,11 +36,10 @@ class UserApiController extends Controller
             'firstname' => $request->input('firstname'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
-            'is_Admin' => 0,
         ]);
 
-        $department = Department::find(2);
-        $department->user()->attach($user->id);
+        // $department = Department::find(2);
+        // $department->user()->attach($user->id);
 
         return new UsersResource($user);
     }

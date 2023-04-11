@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentsApiController;
 use App\Http\Controllers\Ticket_typesApiController;
+use App\Http\Controllers\TicketsApiController;
 use App\Http\Controllers\User_deptsApiController;
 use App\Http\Controllers\UserApiController;
 
@@ -26,7 +27,8 @@ Route::middleware('api')->prefix('v1')->group(function() {
     Route::apiResource('departments', DepartmentsApiController::class);
     Route::apiResource('ticket_types', Ticket_typesApiController::class);
     Route::apiResource('users', UserApiController::class);
-    Route::apiResource('user_departments', User_deptsApiController::class);
+    Route::apiResource('tickets', TicketsApiController::class);
+
 });
 
 

@@ -11,6 +11,10 @@ class Ticket extends Model
 
     protected $fillable = [
         'type_id',
+        'title',
+        'description',
+        'priority',
+        'status',
         'acknowledged_by',
         'acknowledged_at',
         'created_by',
@@ -22,4 +26,10 @@ class Ticket extends Model
         'deleted_by',
         'deleted_at'
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

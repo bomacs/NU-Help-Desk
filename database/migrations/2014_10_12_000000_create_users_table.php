@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->boolean('is_Admin');
+            $table->boolean('is_Admin')->default(false);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
         });

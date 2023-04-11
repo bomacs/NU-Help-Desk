@@ -26,7 +26,7 @@ class StoreDepartmentRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:departments|max:255',
-            'description' => 'max:255'
+            'description' => 'string|max:255'
         ];
     }
 }
