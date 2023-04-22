@@ -17,7 +17,7 @@ class DepartmentFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->colorName(),
+            'name' => fake()->randomElement(['IT', 'HR' , 'Acounting', 'Faculty', 'Engineering']),
             'email' => fake()->unique()->safeEmail(),
             'description' => fake()->paragraph(2)
         ];

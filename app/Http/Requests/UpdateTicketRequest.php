@@ -26,9 +26,10 @@ class UpdateTicketRequest extends FormRequest
         $today_date = date('YYYY-MM-DD');
         
         return [
+            'department_id' => 'integer|exists:departments,id',
             'type_id' => 'integer|exists:ticket_types,id',
-            'title' => 'string|max:255',
-            'description' => 'string|max:255',
+            'details_desc' => 'string|max:255',
+            'attachments' => 'string|max:255',
             'priority' => 'string|max:255',
             'status' => 'string|max:255',
             'acknowledged_by' => 'integer',

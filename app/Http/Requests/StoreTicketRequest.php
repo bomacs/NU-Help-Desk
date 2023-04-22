@@ -26,9 +26,10 @@ class StoreTicketRequest extends FormRequest
         $today_date = date('YYYY-MM-DD');
 
         return [
+            'department_id' => 'required|integer|exists:departments,id',
             'type_id' => 'required|integer|exists:ticket_types,id',
-            'title' => 'required|string|max:255',
-            'description' => 'string|max:255',
+            'details_desc' => 'required|string|max:255',
+            'attachments' => 'string|max:255',
             'priority' => 'string|max:255',
             'status' => 'string|max:255',
             'acknowledged_by' => 'integer',

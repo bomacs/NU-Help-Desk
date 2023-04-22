@@ -16,5 +16,11 @@ class Ticket_type extends Model
     ];
 
     public $timestamps = false;
+
+
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }
 

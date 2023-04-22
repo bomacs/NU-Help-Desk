@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserApiController extends Controller
 {
@@ -30,15 +31,17 @@ class UserApiController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $request->validated($request->all());
+
         $user = User::create([
-            'user_id' => $request->input('user_id'),
-            'lastname' => $request->input('lastname'),
-            'firstname' => $request->input('firstname'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
+            'user_id' => $request->user_id,
+            'lastname' => $request->lastname,
+            'firstname' => $request->firstname,
+            'email' => $request->email,   
+            'password' => Hash::make($request->password),
         ]);
 
-        // $department = Department::find(2);
+        // $department = Department::find(10);
         // $department->user()->attach($user->id);
 
         return new UsersResource($user);
@@ -64,20 +67,7 @@ class UserApiController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update([
-            'id' => $user->id,
-            'user_id' => (null !== ($request->input('user_id'))) ? $request->input('user_id') : $user->user_id,
-            'lastname' => (null !== ($request->input('lastname'))) ? $request->input('lastname') : $user->lastname,
-            'firstname' => (null !== ($request->input('firstname'))) ? $request->input('firstname') : $user->firstname,
-            'email' => (null !== ($request->input('email'))) ? $request->input('email') : $user->email,
-            // 'email_verified_at' => $user->email_verified_at,
-            'password' => (null !== ($request->input('password'))) ? Hash::make($request->input('password')) : $user->password,
-            // 'remember_token' => $user->remember_token,
-            'is_Admin' => $user->is_Admin,
-            // 'created_at' => $user->created_at,
-            // 'updated_at' => $user->updated_at,
-            // 'deleted_at' => $user->deleted_at
-        ]);
+        $user->update($request->all());
 
         return new UsersResource($user);
     }
@@ -91,7 +81,15 @@ class UserApiController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        
+        return response(null, 204);
+    }
 
-        return response()->json(["data" => "User" . " " . $user->user_id . " " . "has been deleted successfully."]);
+    private function isNotAuthorized($user)
+    {
+        if (Auth::user()->id !== $user->id)
+        {
+            return response("Your are not authorized to do this action.", 403);
+        }
     }
 }

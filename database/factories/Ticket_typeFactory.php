@@ -17,7 +17,7 @@ class Ticket_typeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->colorName(),
+            'name' => fake()->randomElement(['Account', 'Security', 'Products and Services', 'Management']),
             'description' => fake()->paragraph(2),
             'sla_mins' => fake()->numberBetween($min=1, $max=60)
         ];

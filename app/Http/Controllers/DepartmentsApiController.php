@@ -28,6 +28,8 @@ class DepartmentsApiController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
+        $request->validated($request->all());
+        
         $department = Department::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -72,6 +74,6 @@ class DepartmentsApiController extends Controller
     {
         $department->delete();
 
-        return response()->json(["data" => "The" . " " . $department->name . " " . "department has been deleted successfully."]);
+        return response(null, 204);
     }
 }

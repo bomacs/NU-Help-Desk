@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\UsersResource;
+use Ramsey\Uuid\Type\Integer;
 
 class TicketsResource extends JsonResource
 {
@@ -15,15 +17,16 @@ class TicketsResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => (string)$this->id,
+            'id' => $this->id,
             'type' => 'Tickets',
             'attributes' => [
+                'department_id' => $this->department_id,
                 'type_id' => $this->type_id,
-                'title' => $this->title,
-                'description' => $this->description,
+                'details_desc' => $this->details_desc,
+                'attachments' => $this->attachments,
                 'priority' => $this->priority,
                 'status' => $this->status,
-                'acknowledge_by' => $this->acknowledged_by,
+                'acknowledged_by' => $this->acknowledged_by,
                 'acknowledged_at' => $this->acknowledge_at,
                 'created_by' => $this->created_by,
                 'created_at' => $this->created_at,
@@ -34,8 +37,15 @@ class TicketsResource extends JsonResource
                 'assigned_to' => $this->assigned_to,
                 'assigned_by' => $this->assigned_by,
                 'deleted_by' => $this->deleted_by,
-                'deleted_at' => $this->deleted_at
+                'deleted_at' => $this->deleted_at,
+            ],
+            'client' => [
+                'id' => $this->user->id,
+                'lastname' => $this->user->lastname,
+                'firstname' => $this->user->firstname,
+                'email' => $this->user->email,
             ]
+            // 'user' => UsersResource::collection($this->user->id)
         ];
     }
 }

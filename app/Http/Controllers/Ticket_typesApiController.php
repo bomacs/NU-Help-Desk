@@ -27,6 +27,8 @@ class Ticket_typesApiController extends Controller
      */
     public function store(StoreTicket_typeRequest $request)
     {
+        $request->validated($request->all());
+        
         $ticket_type = Ticket_type::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -56,11 +58,7 @@ class Ticket_typesApiController extends Controller
      */
     public function update(UpdateTicket_typeRequest $request, Ticket_type $ticket_type)
     {
-        $ticket_type->update([
-            'name' => (null !== $request->input('name')) ? $request->input('name') : $ticket_type->name,
-            'description' => (null !== $request->input('description')) ? $request->input('description') : $ticket_type->description,
-            'sla_mins' => (null !== $request->input('sla_mins')) ? $request->input('sla_mins') : $ticket_type->sla_mins
-        ]);
+        $ticket_type->update($request->all());
 
         return new Ticket_typesResource($ticket_type);
     }
@@ -75,6 +73,6 @@ class Ticket_typesApiController extends Controller
     {
         $ticket_type->delete();
 
-        return response()->json(["data" => "Ticket type" . " " . $ticket_type->name . " " . "has been deleted successfully."]);
+        return response(null, 204);
     }
 }

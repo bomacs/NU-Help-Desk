@@ -19,9 +19,13 @@ class Department extends Model
     public $timestamps = false;
 
     // Relationship with the User class
-    public function user()
+    public function users()
     {
         return $this->belongsToMany(User::class);
     }
     
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

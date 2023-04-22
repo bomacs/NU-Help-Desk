@@ -27,21 +27,24 @@ class TicketsApiController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
+        $request->validated($request->all());
+
         $ticket = Ticket::create([
-            'type_id' => $request->input('type_id'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'priority' => $request->input('priority'),
-            'status' => $request->input('status'),
-            'acknowledged_by' => $request->input('acknowledge_by'),
-            'acknowledged_at' => $request->input('acknowledge_at'),
-            'created_by' => $request->input('created_by'),
-            'updated_by' => $request->input('updated_by'),
-            'resolved_by' => $request->input('resolved_by'),
-            'resolved_at' => $request->input('resolved_at'),
-            'assigned_to' => $request->input('assigned_to'),
-            'assigned_by' => $request->input('assigned_by'),
-            'deleted_by' => $request->input('deleted_by'),
+            'department_id' => $request->department_id,
+            'type_id' => $request->type_id,
+            'details_desc' => $request->details_desc,
+            'attachments' => $request->attachments,
+            'priority' => ($request->priority) ?? "medium",
+            'status' => ($request->status)?? "open",
+            'acknowledged_by' => $request->acknowledge_by,
+            'acknowledged_at' => $request->acknowledge_at,
+            'created_by' => $request->created_by,
+            'updated_by' => $request->updated_by,
+            'resolved_by' => $request->resolved_by,
+            'resolved_at' => $request->resolved_at,
+            'assigned_to' => $request->assigned_to,
+            'assigned_by' => $request->assigned_by,
+            'deleted_by' => $request->deleted_by,
         ]);
 
         return new TicketsResource($ticket);
@@ -67,23 +70,7 @@ class TicketsApiController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        $ticket->update([
-            'type_id' => (null !== $request->input('type_id')) ? $request->input('type_id') : $ticket->type_id,
-            'title' => (null !== $request->input('title')) ? $request->input('title') : $ticket->title,
-            'description' => (null !== $request->input('description')) ? $request->input('description') : $ticket->description,
-            'priority' => (null !== $request->input('priority')) ? $request->input('priority') : $ticket->priority,
-            'status' => (null !== $request->input('status')) ? $request->input('status') : $ticket->status,
-            'acknowledged_by' => (null !== $request->input('acknowledged_by')) ? $request->input('acknowledged_by') : $ticket->acknowledged_by,
-            'acknowledged_at' => (null !== $request->input('acknowledged_at')) ? $request->input('acknowledged_at') : $ticket->acknowledged_at,
-            'created_by' => (null !== $request->input('created_by')) ? $request->input('created_by') : $ticket->created_by,
-            'updated_by' => (null !== $request->input('updated_by')) ? $request->input('updated_by') : $ticket->updated_by,
-            'resolved_by' => (null !== $request->input('resolved_by')) ? $request->input('resolved_by') : $ticket->resolved_by,
-            'resolved_at' => (null !== $request->input('resolved_at')) ? $request->input('resolved_at') : $ticket->resolved_at,
-            'assigned_to' => (null !== $request->input('assigned_to')) ? $request->input('assigned_to') : $ticket->assigned_to,
-            'assigned_by' => (null !== $request->input('assigned_by')) ? $request->input('assigned_by') : $ticket->assigned_by,
-            'deleted_by' => (null !== $request->input('deleted_by')) ? $request->input('deleted_by') : $ticket->deleted_by,
-            'deleted_at' => (null !== $request->input('deleted_at')) ? $request->input('deleted_at') : $ticket->deleted_at,
-        ]);
+        $ticket->update($request->all());
 
         return new TicketsResource($ticket);
     }
@@ -99,6 +86,6 @@ class TicketsApiController extends Controller
         $ticket->delete();
 
 
-        return response()->json(['data'=>'Ticket' . ' ' . $ticket->title . ' ' . 'has been deleted successfully.']);
+        return response(null, 204);
     }
 }

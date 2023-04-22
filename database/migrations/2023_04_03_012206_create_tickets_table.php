@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('department_id');
             $table->unsignedBigInteger('type_id');
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->string('priority')->default('uncategorized');
+            $table->string('details_desc');
+            $table->string('attachments')->nullable();
+            $table->string('priority')->default('medium');
             $table->string('status')->default('open');
             $table->unsignedBigInteger('acknowledged_by')->nullable();
             $table->unsignedBigInteger('acknowledged_at')->nullable();
@@ -33,8 +34,9 @@ return new class extends Migration
             $table->dateTime('deleted_at')->nullable();
 
             $table->foreign('type_id')->references('id')->on('ticket_types');
+            $table->foreign('department_id')->references('id')->on('departments');
             $table->foreign('acknowledged_by')->references('id')->on('users');
-            $table->foreign('created_by')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('resolved_by')->references('id')->on('users');
             $table->foreign('assigned_to')->references('id')->on('users');
             $table->foreign('assigned_by')->references('id')->on('users');

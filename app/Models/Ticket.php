@@ -10,9 +10,10 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
+        'department_id',
         'type_id',
-        'title',
-        'description',
+        'details_desc',
+        'attachments',
         'priority',
         'status',
         'acknowledged_by',
@@ -24,12 +25,27 @@ class Ticket extends Model
         'assigned_to',
         'assigned_by',
         'deleted_by',
-        'deleted_at'
+        'deleted_at',
     ];
+
+    /**
+     * The relationship that should always be loaded
+     */
+    protected $with = ['user'];
 
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function ticket_type()
+    {
+        return $this->belongsTo(Ticket_type::class, 'type_id');
     }
 }
